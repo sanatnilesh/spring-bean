@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	<!-- <bean id="parent-triangle" class="Triangle"> <property name="points"> 
+		<list> <ref bean="pointA" /> </list> </property> </bean> <bean id="triangle1" 
+		class="Triangle" parent="parent-triangle"> <property name="points"> <list 
+		merge="true"> <ref bean="pointB" /> <ref bean="pointC" /> </list> </property> 
+		</bean> -->
+
+	<bean class="com.spring.demo.MyBeanFactoryPostProcessor"></bean>
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="pointsconfig.properties"></property>
+	</bean>
+	<bean id="pointA" class="com.spring.demo.Point">
+		<property name="x" value="${pointA.pointX}"></property>
+		<property name="y" value="${pointA.pointY}"></property>
+	</bean>
+	<bean id="pointB" class="com.spring.demo.Point">
+		<qualifier value="circleRelated"></qualifier>
+		<property name="x" value="-20"></property>
+		<property name="y" value="0"></property>
+	</bean>
+	<bean id="pointC" class="com.spring.demo.Point">
+		<property name="x" value="0"></property>
+		<property name="y" value="-20"></property>
+	</bean>
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>mymessages</value>
+			</list>
+		</property>	
+	</bean>
+	<context:annotation-config></context:annotation-config>
+	<context:component-scan
+		base-package="com.spring.demo"></context:component-scan>
+</beans>
